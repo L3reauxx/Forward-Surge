@@ -11,6 +11,7 @@ const fragmentShaderSource = `
   precision mediump float;
   uniform vec2 u_resolution;
   uniform float u_time;
+  uniform vec2 u_mouse;
 
   // Simple random and noise functions for fluid look
   vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
@@ -48,9 +49,17 @@ const fragmentShaderSource = `
   void main() {
     vec2 st = gl_FragCoord.xy/u_resolution.xy;
     st.x *= u_resolution.x/u_resolution.y;
+    
+    vec2 mouse = u_mouse/u_resolution.xy;
+    mouse.x *= u_resolution.x/u_resolution.y;
 
     // Scale the noise
     vec2 pos = vec2(st * 1.5);
+    
+    // Mouse interaction
+    float dist = distance(st, mouse);
+    float mouseEffect = smoothstep(0.6, 0.0, dist) * 0.5;
+    pos += mouseEffect * 0.1 * vec2(snoise(pos + u_time), snoise(pos - u_time));
 
     // Create undulating fluid noise
     float n = snoise(pos - u_time * 0.05);
@@ -58,17 +67,22 @@ const fragmentShaderSource = `
     
     // Base colors for light theme premium feel
     vec3 color1 = vec3(1.0, 1.0, 1.0); // White
-    vec3 color2 = vec3(0.96, 0.97, 0.98); // Light slate/blue-gray (slate-50)
-    vec3 color3 = vec3(1.0, 0.98, 0.92); // Very light amber (brand-50)
-    vec3 color4 = vec3(0.99, 0.93, 0.76); // Light amber (brand-100)
+    vec3 color2 = vec3(0.96, 0.97, 0.98); // Light slate
+    vec3 color3 = vec3(1.0, 0.87, 0.54); // brand-200
+    vec3 color4 = vec3(1.0, 0.72, 0.07); // brand-400
     
+    // Smooth, slow breathing effect (0.0 to 1.0 over a long period, e.g., ~30s per cycle)
+    float breathe = (sin(u_time * 0.15) + 1.0) * 0.5;
+    // Map between a less pronounced (0.15) and more pronounced (0.8) state
+    float intensity = mix(0.15, 0.85, breathe);
+
     // Mix them fluidly
     vec3 finalColor = mix(color1, color2, smoothstep(-1.0, 1.0, n));
     float n2 = snoise(pos + vec2(u_time * 0.03, -u_time * 0.04));
-    finalColor = mix(finalColor, color3, smoothstep(-0.5, 0.5, n2));
+    finalColor = mix(finalColor, color3, smoothstep(-0.5, 0.5, n2) * (intensity * 0.8 + mouseEffect * 0.5));
     
     float n3 = snoise(pos * 0.5 - vec2(-u_time * 0.02, u_time * 0.02));
-    finalColor = mix(finalColor, color4, smoothstep(0.3, 1.0, n3) * 0.5); // Subtle injection of slightly darker amber
+    finalColor = mix(finalColor, color4, smoothstep(0.3, 1.0, n3) * (intensity * 0.6 + mouseEffect * 0.4));
 
     gl_FragColor = vec4(finalColor, 1.0);
   }
@@ -134,9 +148,24 @@ export function FluidCanvas() {
 
     const resolutionLocation = gl.getUniformLocation(program, 'u_resolution');
     const timeLocation = gl.getUniformLocation(program, 'u_time');
+    const mouseLocation = gl.getUniformLocation(program, 'u_mouse');
 
     let animationFrameId: number;
     let startTime = Date.now();
+    let targetMouseX = 0;
+    let targetMouseY = 0;
+    let mouseX = 0;
+    let mouseY = 0;
+    
+    // Add mouse move listener
+    const handleMouseMove = (e: MouseEvent) => {
+      // Get mouse position relative to canvas
+      const rect = canvas.getBoundingClientRect();
+      targetMouseX = (e.clientX - rect.left) * (window.devicePixelRatio || 1);
+      targetMouseY = (rect.bottom - e.clientY) * (window.devicePixelRatio || 1); // Flip Y for WebGL
+    };
+    
+    window.addEventListener('mousemove', handleMouseMove);
 
     const render = () => {
       // Resize handling
@@ -150,10 +179,15 @@ export function FluidCanvas() {
         gl.viewport(0, 0, canvas.width, canvas.height);
       }
 
+      // Lerp mouse
+      mouseX += (targetMouseX - mouseX) * 0.03;
+      mouseY += (targetMouseY - mouseY) * 0.03;
+
       const currentTime = (Date.now() - startTime) / 1000.0;
 
       gl.uniform2f(resolutionLocation, canvas.width, canvas.height);
       gl.uniform1f(timeLocation, currentTime);
+      gl.uniform2f(mouseLocation, mouseX, mouseY);
 
       gl.drawArrays(gl.TRIANGLES, 0, 6);
 
@@ -163,6 +197,7 @@ export function FluidCanvas() {
     render();
 
     return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
       cancelAnimationFrame(animationFrameId);
     };
   }, []);

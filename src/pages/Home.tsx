@@ -9,6 +9,7 @@ import {
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 
+import { FlowField } from "../components/FlowField";
 import { FluidCanvas } from "../components/FluidCanvas";
 import { ClientRiver } from "../components/ClientRiver";
 
@@ -195,6 +196,7 @@ export default function Home() {
       <section className="relative overflow-hidden stripe-gradient py-24 lg:py-32">
         <motion.div style={{ y: y1 }} className="absolute inset-0 bg-surge-pattern opacity-60"></motion.div>
         <FluidCanvas />
+        <FlowField />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="max-w-3xl space-y-8">
             <motion.div
@@ -294,31 +296,6 @@ export default function Home() {
             </motion.div>
           </div>
         </div>
-
-        {/* Abstract Strategy Visual (Decorative background) */}
-        <motion.div style={{ y: y2 }} className="absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/4 hidden lg:block w-[600px] h-[600px] opacity-40 pointer-events-none">
-          <div className="relative w-full h-full">
-            <div className="absolute inset-0 bg-amber-100 rounded-full blur-3xl opacity-50"></div>
-            <motion.div
-              animate={{ rotate: [12, 192] }}
-              transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 border border-slate-200 rounded-3xl bg-white/40 glass-card origin-center"
-            ></motion.div>
-            <motion.div
-              animate={{ rotate: [-12, -192] }}
-              transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 border-2 border-brand-500 rounded-3xl origin-center"
-            ></motion.div>
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
-              <div className="text-brand-700 flex flex-col items-center">
-                <span className="text-6xl font-black">70%</span>
-                <span className="text-sm uppercase font-bold tracking-widest mt-2">
-                  Application
-                </span>
-              </div>
-            </div>
-          </div>
-        </motion.div>
       </section>
 
       {/* Trust Bar Section */}

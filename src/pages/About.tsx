@@ -162,15 +162,10 @@ export default function About() {
             <p className="text-lg md:text-xl text-slate-600 font-medium">The foundational pillars that guide our every interaction and strategic decision.</p>
           </motion.div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 auto-rows-[250px]">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
             {values.map((value, idx) => {
               const Icon = value.icon;
               
-              // Bento Box Grid Logic
-              let gridClasses = "col-span-1";
-              if (idx === 0) gridClasses = "col-span-1 md:col-span-2 md:row-span-2"; // Large primary block
-              else if (idx === 3) gridClasses = "col-span-1 md:col-span-2"; // Wide bottom block
-
               return (
                 <motion.div 
                   key={value.name}
@@ -178,16 +173,16 @@ export default function About() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: idx * 0.1 }}
-                  className={`bg-white p-8 md:p-10 lg:p-12 rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 flex flex-col justify-between group hover:-translate-y-1 hover:shadow-2xl hover:border-brand-200 transition-all duration-300 ${gridClasses}`}
+                  className="bg-white p-8 md:p-10 lg:p-12 rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 flex flex-col justify-start group hover:-translate-y-1 hover:shadow-2xl hover:border-brand-200 transition-all duration-300 relative overflow-hidden"
                 >
-                  <div className="flex justify-between items-start mb-6">
-                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-slate-50 text-brand-500 group-hover:bg-brand-50 group-hover:text-brand-600 transition-colors">
+                  <div className="absolute top-0 right-0 -mr-8 -mt-8 w-48 h-48 bg-slate-50 rounded-full blur-3xl group-hover:bg-brand-50 transition-colors duration-500 z-0"></div>
+                  
+                  <div className="relative z-10">
+                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-slate-50 text-brand-500 group-hover:bg-brand-50 group-hover:text-brand-600 transition-colors mb-6 shadow-sm">
                       <Icon className="w-8 h-8" />
                     </div>
-                  </div>
-                  <div>
                     <h3 className="text-2xl lg:text-3xl font-display font-extrabold text-slate-900 mb-4 tracking-tight">{value.name}</h3>
-                    <p className={`text-slate-600 font-medium leading-relaxed ${idx === 0 ? 'text-lg lg:text-xl max-w-md' : 'text-base'}`}>{value.desc}</p>
+                    <p className="text-slate-600 font-medium leading-relaxed text-lg">{value.desc}</p>
                   </div>
                 </motion.div>
               );
