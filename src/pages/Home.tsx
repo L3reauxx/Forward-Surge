@@ -173,7 +173,7 @@ const testimonialSets = [
       quote: "True leadership transforms organizational culture from the inside out.",
       name: "Peril John Alubbe",
       role: "Founder & CEO",
-      image: "/team/peril-john-alubbe.jpg",
+      image: `${import.meta.env.BASE_URL}team/peril-john-alubbe.jpg`,
       className: "top-8 right-[5%]"
     },
     {
@@ -202,7 +202,7 @@ const testimonialSets = [
       quote: "We align human potential with aggressive business targets.",
       name: "Moses Sitati",
       role: "Advisory Board",
-      image: "/team/moses-sitati-munoko.jpg",
+      image: `${import.meta.env.BASE_URL}team/moses-sitati-munoko.jpg`,
       className: "bottom-8 right-[24%]"
     },
     {

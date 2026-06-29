@@ -14,19 +14,19 @@ const team = [
     name: 'Peril John Alubbe',
     role: 'Founder & CEO',
     bio: 'PJ is a certified leadership and business consultant with over 20 years of experience coaching corporate and SME executives. He is a board harmonizer, conflict manager, and social architect passionate about intelligent leadership.',
-    image: '/team/peril-john-alubbe.jpg'
+    image: `${import.meta.env.BASE_URL}team/peril-john-alubbe.jpg`
   },
   {
     name: 'Moses Sitati Munoko',
     role: 'Advisory Board Member',
     bio: 'Bringing decades of strategic insight to guide our overarching mission and vision for leadership in Africa.',
-    image: '/team/moses-sitati-munoko.jpg'
+    image: `${import.meta.env.BASE_URL}team/moses-sitati-munoko.jpg`
   },
   {
     name: 'Kennedy Luvembe',
     role: 'Consultant and Life Coach',
     bio: 'Specializes in personal development and organizational behavior, driving individual growth within corporate frameworks.',
-    image: '/team/kennedy-luvembe.jpg'
+    image: `${import.meta.env.BASE_URL}team/kennedy-luvembe.jpg`
   }
 ];
 
