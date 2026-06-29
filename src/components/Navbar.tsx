@@ -53,7 +53,7 @@ export default function Navbar() {
           <div className="flex-shrink-0 flex items-center gap-2">
             <Link to="/" className="flex items-center gap-3">
               <img
-                src="/logo.png"
+                src={`${import.meta.env.BASE_URL}logo.png`}
                 alt="Forward Surge Consultants"
                 className="h-10 object-contain"
               />

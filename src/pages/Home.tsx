@@ -764,7 +764,7 @@ export default function Home() {
             <div className="grid md:grid-cols-2 lg:grid-cols-5 items-stretch">
               <div className="lg:col-span-2 relative min-h-[400px] md:min-h-full group overflow-hidden">
                 <img
-                  src="/team/peril-john-alubbe.jpg"
+                  src={`${import.meta.env.BASE_URL}team/peril-john-alubbe.jpg`}
                   alt="Peril John Alubbe"
                   className="absolute inset-0 w-full h-full object-cover grayscale opacity-80 mix-blend-luminosity transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105 group-hover:opacity-100 group-hover:mix-blend-normal"
                 />

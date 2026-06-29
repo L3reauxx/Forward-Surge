@@ -39,7 +39,7 @@ export default function Footer() {
               className="flex items-center gap-3"
             >
               <img
-                src="/logo.png"
+                src={`${import.meta.env.BASE_URL}logo.png`}
                 alt="Forward Surge Consultants"
                 className="h-10 object-contain"
               />
