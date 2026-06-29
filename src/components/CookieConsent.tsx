@@ -36,7 +36,7 @@ export default function CookieConsent() {
               <h3 className="text-sm font-bold text-slate-900 mb-1">Cookie Preferences</h3>
               <p className="text-xs text-slate-600 leading-relaxed">
                 We use cookies to enhance your browsing experience, serve personalized content, and analyze our traffic. By clicking "Accept", you consent to our use of cookies. 
-                <Link to="#" className="text-red-800 hover:underline ml-1 font-semibold">Read our Privacy Policy.</Link>
+                <Link to="/privacy" className="text-brand-700 hover:underline ml-1 font-semibold">Read our Privacy Policy.</Link>
               </p>
             </div>
             
@@ -50,7 +50,7 @@ export default function CookieConsent() {
               </button>
               <button
                 onClick={handleAccept}
-                className="flex-1 md:flex-none px-6 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold uppercase tracking-wider rounded-xl transition-all focus:ring-4 focus:ring-slate-200 hover:-translate-y-0.5 hover:shadow-lg"
+                className="flex-1 md:flex-none px-6 py-2.5 bg-slate-900 hover:bg-brand-500 text-white text-xs font-bold uppercase tracking-wider rounded-xl transition-all duration-300 focus:ring-4 focus:ring-brand-200 hover:scale-105 active:scale-95 hover:shadow-brand-500/20 shadow-lg"
               >
                 Accept
               </button>

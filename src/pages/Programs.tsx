@@ -1,65 +1,10 @@
 import { motion, useMotionValue, useSpring, AnimatePresence } from 'motion/react';
 import React, { useRef, useState } from 'react';
-import { ArrowRight, BookOpen, Compass, Users, Award, ChevronDown } from 'lucide-react';
+import { ArrowRight, ChevronDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { programs, Program } from '../data/programs';
 
-const programs = [
-  {
-    id: 'lamp',
-    title: 'LAMP',
-    subtitle: 'Leadership and Management Program',
-    icon: BookOpen,
-    description: 'A 6-month journey covering mission-critical areas of management. LAMP equips managers to think critically, devolve decision-making, ask the right questions, and clarify strategic priorities.',
-    modules: [
-      {
-        name: 'LAMP 1.0 (Foundations)',
-        details: 'Covers Leadership in 3D, personality insights, quality thinking, situational leadership, time management, and productivity.'
-      },
-      {
-        name: 'LAMP 2.0 (Organizational)',
-        details: 'Focuses on political savviness, organizational culture, feedback, failure management, and change management.'
-      }
-    ],
-    audience: 'Emergent & Growth Stage Leaders',
-    ctaText: 'Enroll in LAMP',
-    ctaLink: '/contact?program=lamp'
-  },
-  {
-    id: 'bold',
-    title: 'BOLD',
-    subtitle: 'Business Oversight Leadership Development',
-    icon: Compass,
-    description: 'What is the real job of a leader? Effective leaders make tough decisions through ruthless prioritization. BOLD helps you cultivate an acute sense of self-awareness regarding your capabilities, strengths, and weaknesses.',
-    modules: [],
-    audience: 'Strategic & Legacy Leaders',
-    ctaText: 'Discover BOLD',
-    ctaLink: '/contact?program=bold'
-  },
-  {
-    id: 'lead-coach',
-    title: 'LEAD COACH®',
-    subtitle: 'Cultivate the right people-practices',
-    icon: Users,
-    description: 'LEAD COACH helps you create a coaching culture, groom high-potential performers, and facilitate crucial conversations using the law of the harvest: Condition the soil, Sow the seed, Water it, Reap the harvest.',
-    modules: [],
-    audience: 'Executive Coaches & Mentors',
-    ctaText: 'Become a Lead Coach',
-    ctaLink: '/contact?program=lead-coach'
-  },
-  {
-    id: 'leadxprnc',
-    title: 'LEADXPRNC®',
-    subtitle: 'Executive Coaching Program',
-    icon: Award,
-    description: 'An 8-month executive coaching program curated around the ForwardSurge 10Ps leadership framework. Use personal leadership branding to enhance self-awareness, understand personal influence, and drive corporate performance.',
-    modules: [],
-    audience: 'C-Suite & Senior Executives',
-    ctaText: 'Start Your Journey',
-    ctaLink: '/contact?program=leadxprnc'
-  }
-];
-
-function ProgramCard({ program, index }: { program: any; index: number }) {
+const ProgramCard: React.FC<{ program: Program; index: number }> = ({ program, index }) => {
   const Icon = program.icon;
   const cardRef = useRef<HTMLDivElement>(null);
   
@@ -93,7 +38,7 @@ function ProgramCard({ program, index }: { program: any; index: number }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.6 }}
-      className="bg-white rounded-[2rem] p-8 lg:p-12 shadow-xl shadow-slate-100 border border-slate-200 relative overflow-hidden group"
+      className="bg-white rounded-[2rem] p-8 lg:p-12 shadow-xl shadow-slate-100 border border-slate-200 relative overflow-hidden group hover:shadow-2xl hover:shadow-brand-100/50 hover:-translate-y-1 hover:border-brand-200 transition-all duration-300"
     >
       <motion.div 
         style={{ x: springX, y: springY }}
@@ -107,10 +52,7 @@ function ProgramCard({ program, index }: { program: any; index: number }) {
           </div>
           <div>
             <h2 className="text-4xl font-display font-extrabold text-slate-900 tracking-tight">{program.title}</h2>
-            <h3 className="text-sm font-bold text-red-800 mt-2 uppercase tracking-widest">{program.subtitle}</h3>
-          </div>
-          <div className="inline-block px-4 py-2 bg-slate-50 border border-slate-200 text-slate-600 rounded-lg text-xs font-bold uppercase tracking-wider">
-            Target: {program.audience}
+            <h3 className="text-sm font-bold text-brand-700 mt-2 uppercase tracking-widest">{program.subtitle}</h3>
           </div>
         </div>
         
@@ -119,16 +61,15 @@ function ProgramCard({ program, index }: { program: any; index: number }) {
             {program.description}
           </p>
           
-          {program.modules && program.modules.length > 0 && (
+          {program.overviewList && program.overviewList.length > 0 && (
             <div className="space-y-6 pt-6 border-t border-slate-200">
-              {program.modules.map((mod: any, i: number) => (
+              {program.overviewList.map((item, i) => (
                 <div key={i} className="flex space-x-4">
-                  <div className="flex-shrink-0 mt-1">
+                  <div className="flex-shrink-0 mt-2">
                     <div className="w-2 h-2 rounded-full bg-amber-500"></div>
                   </div>
                   <div>
-                    <h4 className="text-lg font-bold text-slate-900">{mod.name}</h4>
-                    <p className="text-slate-600 mt-1 font-medium">{mod.details}</p>
+                    <h4 className="text-lg font-bold text-slate-900">{item}</h4>
                   </div>
                 </div>
               ))}
@@ -137,10 +78,10 @@ function ProgramCard({ program, index }: { program: any; index: number }) {
 
           <div className="pt-6 mt-auto">
             <Link 
-              to={program.ctaLink} 
-              className="inline-flex items-center text-sm font-bold text-slate-900 uppercase tracking-wider group/btn hover:text-red-800 transition-colors"
+              to={program.ctaLink || `/programs/${program.id}`} 
+              className="inline-flex items-center text-sm font-bold text-slate-900 uppercase tracking-wider group/btn hover:text-brand-700 transition-colors"
             >
-              {program.ctaText}
+              {program.ctaButtonText || "Learn More"}
               <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
             </Link>
           </div>
@@ -176,7 +117,7 @@ const faqs = [
 function FAQAccordion({ faq, isOpen, onClick }: { faq: any, isOpen: boolean, onClick: () => void }) {
   const contentId = `faq-answer-${faq.question.replace(/\s+/g, '-').toLowerCase()}`;
   return (
-    <div className="border border-slate-200 rounded-2xl overflow-hidden bg-white hover:border-red-800/30 transition-colors shadow-sm hover:shadow-md">
+    <div className="border border-slate-200 rounded-2xl overflow-hidden bg-white hover:border-brand-500/30 transition-colors shadow-sm hover:shadow-md">
       <button 
         className="w-full flex items-center justify-between p-6 text-left focus:outline-none focus:bg-slate-50"
         onClick={onClick}
@@ -184,7 +125,7 @@ function FAQAccordion({ faq, isOpen, onClick }: { faq: any, isOpen: boolean, onC
         aria-controls={contentId}
       >
         <span className="font-bold text-slate-900 pr-8 text-lg">{faq.question}</span>
-        <div className={`w-10 h-10 flex items-center justify-center rounded-full bg-slate-50 text-slate-500 flex-shrink-0 transition-all duration-300 ${isOpen ? 'rotate-180 bg-red-50 text-red-800' : ''}`}>
+        <div className={`w-10 h-10 flex items-center justify-center rounded-full bg-slate-50 text-slate-500 flex-shrink-0 transition-all duration-300 ${isOpen ? 'rotate-180 bg-brand-50 text-brand-700' : ''}`}>
           <ChevronDown className="w-5 h-5" />
         </div>
       </button>
@@ -220,18 +161,70 @@ export default function Programs() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center space-x-2 bg-white text-amber-500 px-4 py-2 rounded-full mb-8 text-[10px] font-bold tracking-widest uppercase border border-slate-200 shadow-sm"
+            className="inline-flex items-center space-x-2 bg-white text-brand-500 px-4 py-2 rounded-full mb-8 text-[10px] font-bold tracking-widest uppercase border border-slate-200 shadow-sm"
           >
-            <span className="w-2 h-2 rounded-full bg-red-800"></span>
+            <span className="w-2 h-2 rounded-full bg-brand-500"></span>
             <span>Specializations Built for Impact</span>
           </motion.div>
           <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-4xl md:text-5xl lg:text-7xl font-display font-extrabold tracking-tight mb-8 text-slate-900 leading-[1.1]"
+            initial="hidden"
+            animate="visible"
+            variants={{
+              hidden: { opacity: 0 },
+              visible: {
+                opacity: 1,
+                transition: { staggerChildren: 0.1 }
+              }
+            }}
+            className="text-4xl md:text-5xl lg:text-7xl font-display font-extrabold tracking-tight mb-8 text-slate-900 leading-[1.1] flex flex-wrap justify-center gap-x-2"
           >
-            Aligning People Strategies <br className="hidden md:block"/><span className="text-red-800">to Business Goals.</span>
+            {"Aligning People Strategies".split(" ").map((word, i) => (
+              <motion.span 
+                key={i} 
+                variants={{
+                  hidden: { opacity: 0, y: 30, rotate: 2 },
+                  visible: { opacity: 1, y: 0, rotate: 0, transition: { type: "spring", damping: 15, stiffness: 100 } }
+                }}
+              >
+                {word}
+              </motion.span>
+            ))}
+            <motion.span 
+              variants={{
+                hidden: { opacity: 0, y: 30, rotate: 2 },
+                visible: { opacity: 1, y: 0, rotate: 0, transition: { type: "spring", damping: 15, stiffness: 100 } }
+              }}
+              className="w-full hidden md:block h-0"
+            />
+            {"to".split(" ").map((word, i) => (
+              <motion.span 
+                key={i} 
+                variants={{
+                  hidden: { opacity: 0, y: 30, rotate: 2 },
+                  visible: { opacity: 1, y: 0, rotate: 0, transition: { type: "spring", damping: 15, stiffness: 100 } }
+                }}
+              >
+                {word}
+              </motion.span>
+            ))}
+            <motion.span 
+              variants={{
+                hidden: { opacity: 0, y: 30, rotate: 2, color: "#0f172a" },
+                visible: { 
+                  opacity: 1, 
+                  y: 0, 
+                  rotate: 0,
+                  color: "#F8B800",
+                  transition: { 
+                    type: "spring", damping: 15, stiffness: 100,
+                    color: { delay: 0.8, duration: 0.6 }
+                  } 
+                }
+              }}
+              className="whitespace-nowrap"
+            >
+              Business Goals.
+            </motion.span>
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
@@ -258,23 +251,35 @@ export default function Programs() {
       {/* FAQ Section */}
       <section className="py-24 bg-slate-50 border-t border-slate-200">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
             <h2 className="text-3xl md:text-4xl font-display font-extrabold text-slate-900 mb-4 tracking-tight">
               Frequently Asked Questions
             </h2>
             <p className="text-lg text-slate-600 font-medium">
               Common questions about our programs and engagement process.
             </p>
-          </div>
+          </motion.div>
           
           <div className="space-y-4">
             {faqs.map((faq, index) => (
-              <FAQAccordion 
-                key={index} 
-                faq={faq} 
-                isOpen={openFaq === index} 
-                onClick={() => setOpenFaq(openFaq === index ? null : index)} 
-              />
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+              >
+                <FAQAccordion 
+                  faq={faq} 
+                  isOpen={openFaq === index} 
+                  onClick={() => setOpenFaq(openFaq === index ? null : index)} 
+                />
+              </motion.div>
             ))}
           </div>
         </div>
@@ -283,19 +288,25 @@ export default function Programs() {
       {/* Bottom CTA */}
       <section className="py-24 stripe-gradient border-t border-slate-200">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-5xl font-display font-extrabold text-slate-900 mb-6 tracking-tight">
-            Which program is right for your team?
-          </h2>
-          <p className="text-lg text-slate-600 mb-10 font-medium">
-            Let's have a conversation to understand your specific challenges and match you with the right developmental framework.
-          </p>
-          <Link 
-            to="/contact" 
-            className="inline-flex items-center justify-center px-8 py-4 text-sm font-bold uppercase tracking-wider rounded-xl text-white bg-slate-900 hover:bg-slate-800 transition-colors shadow-xl hover:shadow-2xl focus:ring-4 focus:ring-slate-200"
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
           >
-            Let's Talk
-            <ArrowRight className="ml-2 w-4 h-4" />
-          </Link>
+            <h2 className="text-3xl md:text-5xl font-display font-extrabold text-slate-900 mb-6 tracking-tight">
+              Which program is right for your team?
+            </h2>
+            <p className="text-lg text-slate-600 mb-10 font-medium">
+              Let's have a conversation to understand your specific challenges and match you with the right developmental framework.
+            </p>
+            <Link 
+              to="/contact" 
+              className="inline-flex items-center justify-center px-8 py-4 text-sm font-bold uppercase tracking-wider rounded-xl text-white bg-slate-900 hover:bg-brand-500 hover:scale-105 active:scale-95 transition-all duration-300 shadow-xl hover:shadow-brand-500/20 focus:ring-4 focus:ring-brand-200 inline-block"
+            >
+              Let's Talk
+              <ArrowRight className="ml-2 w-4 h-4" />
+            </Link>
+          </motion.div>
         </div>
       </section>
     </div>

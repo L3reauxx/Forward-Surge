@@ -1,6 +1,7 @@
 import { motion } from 'motion/react';
 import { ArrowRight, Calendar, User } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { AnimatedBlob } from '../components/AnimatedBlob';
 
 const posts = [
   {
@@ -38,24 +39,56 @@ export default function Blog() {
       {/* Hero Section */}
       <section className="stripe-gradient py-24 lg:py-32 relative overflow-hidden">
         <div className="absolute inset-0 bg-surge-pattern opacity-40"></div>
-        <div className="surge-line"></div>
-        <div className="surge-line surge-line-delayed"></div>
+        <AnimatedBlob />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center space-x-2 bg-white text-amber-500 px-4 py-2 rounded-full mb-8 text-[10px] font-bold tracking-widest uppercase border border-slate-200 shadow-sm"
+            className="inline-flex items-center space-x-2 bg-white text-brand-500 px-4 py-2 rounded-full mb-8 text-[10px] font-bold tracking-widest uppercase border border-slate-200 shadow-sm"
           >
-            <span className="w-2 h-2 rounded-full bg-red-800"></span>
+            <span className="w-2 h-2 rounded-full bg-brand-500"></span>
             <span>Insights & Perspectives</span>
           </motion.div>
           <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-4xl md:text-5xl lg:text-7xl font-display font-extrabold tracking-tight mb-8 text-slate-900 leading-[1.1] text-balance"
+            initial="hidden"
+            animate="visible"
+            variants={{
+              hidden: { opacity: 0 },
+              visible: {
+                opacity: 1,
+                transition: { staggerChildren: 0.1 }
+              }
+            }}
+            className="text-4xl md:text-5xl lg:text-7xl font-display font-extrabold tracking-tight mb-8 text-slate-900 leading-[1.1] text-balance flex flex-wrap justify-center gap-x-2"
           >
-            Thoughts on <span className="text-red-800">Leadership.</span>
+            {"Thoughts on".split(" ").map((word, i) => (
+              <motion.span 
+                key={i} 
+                variants={{
+                  hidden: { opacity: 0, y: 30, rotate: 2 },
+                  visible: { opacity: 1, y: 0, rotate: 0, transition: { type: "spring", damping: 15, stiffness: 100 } }
+                }}
+              >
+                {word}
+              </motion.span>
+            ))}
+            <motion.span 
+              variants={{
+                hidden: { opacity: 0, y: 30, rotate: 2, color: "#0f172a" },
+                visible: { 
+                  opacity: 1, 
+                  y: 0, 
+                  rotate: 0,
+                  color: "#F8B800",
+                  transition: { 
+                    type: "spring", damping: 15, stiffness: 100,
+                    color: { delay: 0.4, duration: 0.6 }
+                  } 
+                }
+              }}
+            >
+              Leadership.
+            </motion.span>
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
@@ -102,8 +135,8 @@ export default function Blog() {
                     </div>
                   </div>
                   
-                  <h2 className="text-2xl font-bold text-slate-900 mb-4 group-hover:text-red-800 transition-colors">
-                    <Link to="#">{post.title}</Link>
+                  <h2 className="text-2xl font-bold text-slate-900 mb-4 group-hover:text-brand-700 transition-colors">
+                    <Link to={`/post/${post.id}`}>{post.title}</Link>
                   </h2>
                   
                   <p className="text-slate-600 mb-8 flex-grow line-clamp-3">
@@ -112,10 +145,10 @@ export default function Blog() {
                   
                   <div className="flex items-center justify-between mt-auto pt-6 border-t border-slate-100">
                     <div className="flex items-center space-x-2 text-xs font-bold text-slate-700">
-                      <User className="w-4 h-4 text-amber-500" />
+                      <User className="w-4 h-4 text-brand-500" />
                       <span>{post.author}</span>
                     </div>
-                    <Link to="#" className="text-red-800 font-bold text-sm uppercase tracking-wider flex items-center group-hover:translate-x-1 transition-transform">
+                    <Link to={`/post/${post.id}`} className="text-brand-700 font-bold text-sm uppercase tracking-wider flex items-center group-hover:translate-x-1 transition-transform">
                       Read
                       <ArrowRight className="w-4 h-4 ml-1" />
                     </Link>

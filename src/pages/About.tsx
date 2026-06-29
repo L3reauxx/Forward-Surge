@@ -1,5 +1,6 @@
 import { motion } from 'motion/react';
 import { Target, Eye, Shield, Users, Layers, TrendingUp } from 'lucide-react';
+import { AnimatedBlob } from '../components/AnimatedBlob';
 
 const values = [
   { name: 'Commitment', icon: Target, desc: 'Unwavering dedication to your organizational success.' },
@@ -13,19 +14,19 @@ const team = [
     name: 'Peril John Alubbe',
     role: 'Founder & CEO',
     bio: 'PJ is a certified leadership and business consultant with over 20 years of experience coaching corporate and SME executives. He is a board harmonizer, conflict manager, and social architect passionate about intelligent leadership.',
-    image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=2787&auto=format&fit=crop'
+    image: '/team/peril-john-alubbe.jpg'
   },
   {
     name: 'Moses Sitati Munoko',
     role: 'Advisory Board Member',
     bio: 'Bringing decades of strategic insight to guide our overarching mission and vision for leadership in Africa.',
-    image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=2787&auto=format&fit=crop'
+    image: '/team/moses-sitati-munoko.jpg'
   },
   {
     name: 'Kennedy Luvembe',
     role: 'Consultant and Life Coach',
     bio: 'Specializes in personal development and organizational behavior, driving individual growth within corporate frameworks.',
-    image: 'https://images.unsplash.com/photo-1556157382-97eda2d62296?q=80&w=2940&auto=format&fit=crop'
+    image: '/team/kennedy-luvembe.jpg'
   }
 ];
 
@@ -35,8 +36,7 @@ export default function About() {
       {/* Hero Section */}
       <section className="relative overflow-hidden stripe-gradient py-24 lg:py-32">
         <div className="absolute inset-0 bg-surge-pattern opacity-40"></div>
-        <div className="surge-line"></div>
-        <div className="surge-line surge-line-delayed"></div>
+        <AnimatedBlob />
         <div className="absolute inset-0">
           <img 
             src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=2940&auto=format&fit=crop" 
@@ -48,11 +48,70 @@ export default function About() {
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
           <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-slate-900 mb-8 tracking-tight max-w-4xl mx-auto leading-[1.1] text-balance"
+            initial="hidden"
+            animate="visible"
+            variants={{
+              hidden: { opacity: 0 },
+              visible: {
+                opacity: 1,
+                transition: { staggerChildren: 0.1 }
+              }
+            }}
+            className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-slate-900 mb-8 tracking-tight max-w-4xl mx-auto leading-[1.1] text-balance flex flex-wrap justify-center gap-x-2"
           >
-            Shaped by Vision. Guided by <span className="text-red-800">Strategy.</span> Grounded in <span className="text-amber-500">Values.</span>
+            {"Shaped by Vision. Guided by".split(" ").map((word, i) => (
+              <motion.span 
+                key={i} 
+                variants={{
+                  hidden: { opacity: 0, y: 30, rotate: -2 },
+                  visible: { opacity: 1, y: 0, rotate: 0, transition: { type: "spring", damping: 15, stiffness: 100 } }
+                }}
+              >
+                {word}
+              </motion.span>
+            ))}
+            <motion.span 
+              variants={{
+                hidden: { opacity: 0, y: 30, rotate: -2, color: "#0f172a" },
+                visible: { 
+                  opacity: 1, 
+                  y: 0, 
+                  rotate: 0, 
+                  color: "#F8B800",
+                  transition: { 
+                    type: "spring", damping: 15, stiffness: 100,
+                    color: { delay: 0.8, duration: 0.6 }
+                  } 
+                }
+              }}
+            >
+              Strategy.
+            </motion.span>
+            <motion.span 
+              variants={{
+                hidden: { opacity: 0, y: 30, rotate: -2 },
+                visible: { opacity: 1, y: 0, rotate: 0, transition: { type: "spring", damping: 15, stiffness: 100 } }
+              }}
+            >
+              Grounded in
+            </motion.span>
+            <motion.span 
+              variants={{
+                hidden: { opacity: 0, y: 30, rotate: -2, color: "#0f172a" },
+                visible: { 
+                  opacity: 1, 
+                  y: 0, 
+                  rotate: 0, 
+                  color: "#f59e0b",
+                  transition: { 
+                    type: "spring", damping: 15, stiffness: 100,
+                    color: { delay: 1, duration: 0.6 }
+                  } 
+                }
+              }}
+            >
+              Values.
+            </motion.span>
           </motion.h1>
           
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto mt-16 text-left">
@@ -62,7 +121,7 @@ export default function About() {
               transition={{ delay: 0.2 }}
               className="bg-white/80 backdrop-blur-md border border-slate-200 p-8 rounded-2xl shadow-xl shadow-slate-100"
             >
-              <div className="flex items-center space-x-3 mb-4 text-amber-500">
+              <div className="flex items-center space-x-3 mb-4 text-brand-500">
                 <Eye className="w-6 h-6" />
                 <h3 className="text-xl font-display font-bold text-slate-900 uppercase tracking-wider">Vision</h3>
               </div>
@@ -77,7 +136,7 @@ export default function About() {
               transition={{ delay: 0.3 }}
               className="bg-white/80 backdrop-blur-md border border-slate-200 p-8 rounded-2xl shadow-xl shadow-slate-100"
             >
-              <div className="flex items-center space-x-3 mb-4 text-red-800">
+              <div className="flex items-center space-x-3 mb-4 text-brand-700">
                 <Target className="w-6 h-6" />
                 <h3 className="text-xl font-display font-bold text-slate-900 uppercase tracking-wider">Mission</h3>
               </div>
@@ -90,22 +149,28 @@ export default function About() {
       </section>
 
       {/* Core Values */}
-      <section className="py-24 bg-gray-50">
+      <section className="py-24 lg:py-32 bg-slate-50 border-y border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6 }}
-            className="text-center max-w-2xl mx-auto mb-16"
+            className="text-center max-w-2xl mx-auto mb-16 lg:mb-24"
           >
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-slate-900 mb-4">Our Core Values</h2>
-            <p className="text-lg text-slate-600">The foundational pillars that guide our every interaction and strategic decision.</p>
+            <h2 className="text-3xl md:text-5xl font-display font-extrabold text-slate-900 mb-6 tracking-tight">Our Core Values</h2>
+            <p className="text-lg md:text-xl text-slate-600 font-medium">The foundational pillars that guide our every interaction and strategic decision.</p>
           </motion.div>
           
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 auto-rows-[250px]">
             {values.map((value, idx) => {
               const Icon = value.icon;
+              
+              // Bento Box Grid Logic
+              let gridClasses = "col-span-1";
+              if (idx === 0) gridClasses = "col-span-1 md:col-span-2 md:row-span-2"; // Large primary block
+              else if (idx === 3) gridClasses = "col-span-1 md:col-span-2"; // Wide bottom block
+
               return (
                 <motion.div 
                   key={value.name}
@@ -113,13 +178,17 @@ export default function About() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: idx * 0.1 }}
-                  className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 text-center"
+                  className={`bg-white p-8 md:p-10 lg:p-12 rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 flex flex-col justify-between group hover:-translate-y-1 hover:shadow-2xl hover:border-brand-200 transition-all duration-300 ${gridClasses}`}
                 >
-                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-50 text-red-800 mb-6">
-                    <Icon className="w-8 h-8" />
+                  <div className="flex justify-between items-start mb-6">
+                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-slate-50 text-brand-500 group-hover:bg-brand-50 group-hover:text-brand-600 transition-colors">
+                      <Icon className="w-8 h-8" />
+                    </div>
                   </div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-3">{value.name}</h3>
-                  <p className="text-slate-600 text-sm leading-relaxed">{value.desc}</p>
+                  <div>
+                    <h3 className="text-2xl lg:text-3xl font-display font-extrabold text-slate-900 mb-4 tracking-tight">{value.name}</h3>
+                    <p className={`text-slate-600 font-medium leading-relaxed ${idx === 0 ? 'text-lg lg:text-xl max-w-md' : 'text-base'}`}>{value.desc}</p>
+                  </div>
                 </motion.div>
               );
             })}
@@ -128,7 +197,7 @@ export default function About() {
       </section>
 
       {/* Our Approach */}
-      <section className="py-24">
+      <section className="py-24 lg:py-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <motion.div 
@@ -138,24 +207,24 @@ export default function About() {
               transition={{ duration: 0.8 }}
               className="order-2 lg:order-1 relative aspect-square bg-slate-900 rounded-3xl p-12 flex flex-col justify-center overflow-hidden"
             >
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-red-900/40 via-slate-900 to-slate-900"></div>
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-brand-900/40 via-slate-900 to-slate-900"></div>
               
               <div className="relative z-10 space-y-12">
                 <div className="text-center">
                   <div className="text-5xl font-display font-bold text-white mb-2">10%</div>
-                  <div className="text-red-500 font-medium uppercase tracking-widest text-sm">Intellectual Learning</div>
+                  <div className="text-brand-600 font-medium uppercase tracking-widest text-sm">Intellectual Learning</div>
                   <div className="text-slate-400 text-sm mt-2">Creating Awareness</div>
                 </div>
                 
                 <div className="text-center">
                   <div className="text-6xl font-display font-bold text-white mb-2">20%</div>
-                  <div className="text-red-500 font-medium uppercase tracking-widest text-sm">Adaptive Learning</div>
+                  <div className="text-brand-600 font-medium uppercase tracking-widest text-sm">Adaptive Learning</div>
                   <div className="text-slate-400 text-sm mt-2">Acceptance & Adaptation</div>
                 </div>
                 
                 <div className="text-center">
                   <div className="text-8xl font-display font-bold text-white mb-2">70%</div>
-                  <div className="text-red-500 font-medium uppercase tracking-widest text-sm">Application</div>
+                  <div className="text-brand-600 font-medium uppercase tracking-widest text-sm">Application</div>
                   <div className="text-slate-400 text-sm mt-2">Learning by Doing via Coaching</div>
                 </div>
               </div>
@@ -177,21 +246,21 @@ export default function About() {
               
               <div className="space-y-6 pt-4">
                 <div className="flex space-x-4">
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-red-100 text-red-800 flex items-center justify-center font-bold text-sm">1</div>
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-brand-100 text-brand-700 flex items-center justify-center font-bold text-sm">1</div>
                   <div>
                     <h4 className="text-lg font-bold text-slate-900">Intellectual Learning (10%)</h4>
                     <p className="text-slate-600 mt-1">Creating awareness and introducing new concepts and frameworks.</p>
                   </div>
                 </div>
                 <div className="flex space-x-4">
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-red-100 text-red-800 flex items-center justify-center font-bold text-sm">2</div>
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-brand-100 text-brand-700 flex items-center justify-center font-bold text-sm">2</div>
                   <div>
                     <h4 className="text-lg font-bold text-slate-900">Adaptive Learning (20%)</h4>
                     <p className="text-slate-600 mt-1">Creating acceptance and shaping leaders on how to adapt training for the workplace.</p>
                   </div>
                 </div>
                 <div className="flex space-x-4">
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-red-100 text-red-800 flex items-center justify-center font-bold text-sm">3</div>
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-brand-100 text-brand-700 flex items-center justify-center font-bold text-sm">3</div>
                   <div>
                     <h4 className="text-lg font-bold text-slate-900">Application (70%)</h4>
                     <p className="text-slate-600 mt-1">"Learning by doing." Real-time coaching that supports behavior change and addresses leadership growth areas.</p>
@@ -204,17 +273,17 @@ export default function About() {
       </section>
 
       {/* Leadership Team */}
-      <section className="py-24 bg-slate-50 border-t border-gray-100">
+      <section className="py-24 lg:py-32 bg-slate-50 border-t border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6 }}
-            className="text-center max-w-2xl mx-auto mb-16"
+            className="text-center max-w-2xl mx-auto mb-16 lg:mb-24"
           >
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-slate-900 mb-4">Leadership & Board</h2>
-            <p className="text-lg text-slate-600">The experienced minds shaping the future of African enterprise.</p>
+            <h2 className="text-3xl md:text-5xl font-display font-extrabold text-slate-900 mb-6 tracking-tight">Leadership & Board</h2>
+            <p className="text-lg md:text-xl text-slate-600 font-medium">The experienced minds shaping the future of African enterprise.</p>
           </motion.div>
           
           <div className="grid md:grid-cols-3 gap-12">
@@ -231,11 +300,12 @@ export default function About() {
                   <img 
                     src={member.image} 
                     alt={member.name} 
-                    className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0 opacity-80 group-hover:opacity-30"
+                    className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105 grayscale opacity-90 group-hover:grayscale-0 group-hover:opacity-100 mix-blend-luminosity group-hover:mix-blend-normal"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent opacity-90 transition-opacity duration-300"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-500"></div>
+                  <div className="absolute inset-0 bg-slate-900/0 group-hover:bg-slate-900/60 transition-colors duration-500"></div>
                   
-                  <div className="absolute inset-0 p-6 sm:p-8 flex flex-col justify-end">
+                  <div className="absolute inset-0 p-6 sm:p-8 flex flex-col justify-end z-10">
                     <h3 className="text-2xl font-bold text-white mb-1 transform translate-y-8 group-hover:translate-y-0 transition-transform duration-500 ease-out">{member.name}</h3>
                     <p className="text-amber-400 font-bold text-xs uppercase tracking-widest mb-4 transform translate-y-8 group-hover:translate-y-0 transition-transform duration-500 ease-out delay-75">{member.role}</p>
                     

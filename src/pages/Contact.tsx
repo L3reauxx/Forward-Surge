@@ -1,16 +1,35 @@
 import { motion } from 'motion/react';
-import { Mail, Phone, MapPin, Send } from 'lucide-react';
-import { useState, FormEvent } from 'react';
+import { Mail, Phone, MapPin, Send, Loader2 } from 'lucide-react';
+import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+
+type ContactFormData = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  company: string;
+  stage: string;
+  programOfInterest: string;
+  challenge: string;
+};
 
 export default function Contact() {
   const [searchParams] = useSearchParams();
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [programOfInterest, setProgramOfInterest] = useState(searchParams.get('program') || '');
+  
+  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<ContactFormData>({
+    defaultValues: {
+      programOfInterest: searchParams.get('program') || '',
+    },
+    mode: 'onTouched'
+  });
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    // Simulate form submission
+  const onSubmit = async (data: ContactFormData) => {
+    // Simulate network request
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    console.log(data);
     setIsSubmitted(true);
     setTimeout(() => setIsSubmitted(false), 5000);
   };
@@ -31,7 +50,7 @@ export default function Contact() {
             >
               <h1 className="text-4xl lg:text-5xl font-display font-extrabold tracking-tight mb-12 leading-[1.1] text-balance">
                 "A problem clearly stated is already half solved."
-                <span className="block text-xl font-bold text-red-800 mt-6 tracking-wider uppercase">— African Proverb</span>
+                <span className="block text-xl font-bold text-brand-700 mt-6 tracking-wider uppercase">— African Proverb</span>
               </h1>
               
               <div className="space-y-8 text-slate-600">
@@ -42,7 +61,7 @@ export default function Contact() {
                 <div className="space-y-6 pt-8 border-t border-slate-200">
                   <div className="flex items-center space-x-4">
                     <div className="w-12 h-12 bg-white border border-slate-200 rounded-xl flex items-center justify-center shrink-0 shadow-sm">
-                      <Phone className="w-5 h-5 text-amber-500" />
+                      <Phone className="w-5 h-5 text-brand-500" />
                     </div>
                     <div>
                       <p className="font-bold text-slate-900 uppercase tracking-wider text-xs">Call Us</p>
@@ -52,7 +71,7 @@ export default function Contact() {
                   
                   <div className="flex items-center space-x-4">
                     <div className="w-12 h-12 bg-white border border-slate-200 rounded-xl flex items-center justify-center shrink-0 shadow-sm">
-                      <Mail className="w-5 h-5 text-amber-500" />
+                      <Mail className="w-5 h-5 text-brand-500" />
                     </div>
                     <div>
                       <p className="font-bold text-slate-900 uppercase tracking-wider text-xs">Email</p>
@@ -62,7 +81,7 @@ export default function Contact() {
 
                   <div className="flex items-center space-x-4">
                     <div className="w-12 h-12 bg-white border border-slate-200 rounded-xl flex items-center justify-center shrink-0 shadow-sm">
-                      <MapPin className="w-5 h-5 text-amber-500" />
+                      <MapPin className="w-5 h-5 text-brand-500" />
                     </div>
                     <div>
                       <p className="font-bold text-slate-900 uppercase tracking-wider text-xs">Location</p>
@@ -100,37 +119,86 @@ export default function Contact() {
                 <p className="text-green-700">Thank you for reaching out. A consultant will contact you within 24 hours to schedule your session.</p>
               </motion.div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                 <div className="grid grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label htmlFor="firstName" className="block text-xs font-bold text-slate-700 uppercase tracking-wider">First Name</label>
-                    <input type="text" id="firstName" required className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-red-800 focus:ring-2 focus:ring-red-200 outline-none transition-all focus:-translate-y-1 focus:shadow-lg focus:shadow-red-900/10 focus:bg-white bg-slate-50" />
+                    <input 
+                      id="firstName" 
+                      {...register("firstName", { required: "First name is required" })}
+                      className={`w-full px-4 py-3 rounded-xl border ${errors.firstName ? 'border-brand-500 focus:ring-brand-200' : 'border-slate-200 focus:border-brand-500 focus:ring-brand-200'} focus:ring-2 outline-none transition-all focus:-translate-y-1 focus:shadow-lg focus:shadow-brand-900/10 focus:bg-white bg-slate-50`} 
+                    />
+                    {errors.firstName && <p className="text-brand-600 text-xs font-medium mt-1">{errors.firstName.message}</p>}
                   </div>
                   <div className="space-y-2">
                     <label htmlFor="lastName" className="block text-xs font-bold text-slate-700 uppercase tracking-wider">Last Name</label>
-                    <input type="text" id="lastName" required className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-red-800 focus:ring-2 focus:ring-red-200 outline-none transition-all focus:-translate-y-1 focus:shadow-lg focus:shadow-red-900/10 focus:bg-white bg-slate-50" />
+                    <input 
+                      id="lastName" 
+                      {...register("lastName", { required: "Last name is required" })}
+                      className={`w-full px-4 py-3 rounded-xl border ${errors.lastName ? 'border-brand-500 focus:ring-brand-200' : 'border-slate-200 focus:border-brand-500 focus:ring-brand-200'} focus:ring-2 outline-none transition-all focus:-translate-y-1 focus:shadow-lg focus:shadow-brand-900/10 focus:bg-white bg-slate-50`} 
+                    />
+                    {errors.lastName && <p className="text-brand-600 text-xs font-medium mt-1">{errors.lastName.message}</p>}
                   </div>
                 </div>
 
-                <div className="space-y-2">
-                  <label htmlFor="email" className="block text-xs font-bold text-slate-700 uppercase tracking-wider">Work Email</label>
-                  <input type="email" id="email" required className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-red-800 focus:ring-2 focus:ring-red-200 outline-none transition-all focus:-translate-y-1 focus:shadow-lg focus:shadow-red-900/10 focus:bg-white bg-slate-50" />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label htmlFor="email" className="block text-xs font-bold text-slate-700 uppercase tracking-wider">Work Email</label>
+                    <input 
+                      id="email" 
+                      {...register("email", { 
+                        required: "Email is required",
+                        pattern: {
+                          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                          message: "Invalid email address"
+                        }
+                      })}
+                      className={`w-full px-4 py-3 rounded-xl border ${errors.email ? 'border-brand-500 focus:ring-brand-200' : 'border-slate-200 focus:border-brand-500 focus:ring-brand-200'} focus:ring-2 outline-none transition-all focus:-translate-y-1 focus:shadow-lg focus:shadow-brand-900/10 focus:bg-white bg-slate-50`} 
+                    />
+                    {errors.email && <p className="text-brand-600 text-xs font-medium mt-1">{errors.email.message}</p>}
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <label htmlFor="phone" className="block text-xs font-bold text-slate-700 uppercase tracking-wider">Phone Number</label>
+                    <input 
+                      id="phone" 
+                      {...register("phone", { 
+                        required: "Phone number is required",
+                        pattern: {
+                          value: /^\+?[0-9\s\-()]{7,15}$/,
+                          message: "Invalid phone number"
+                        }
+                      })}
+                      className={`w-full px-4 py-3 rounded-xl border ${errors.phone ? 'border-brand-500 focus:ring-brand-200' : 'border-slate-200 focus:border-brand-500 focus:ring-brand-200'} focus:ring-2 outline-none transition-all focus:-translate-y-1 focus:shadow-lg focus:shadow-brand-900/10 focus:bg-white bg-slate-50`} 
+                    />
+                    {errors.phone && <p className="text-brand-600 text-xs font-medium mt-1">{errors.phone.message}</p>}
+                  </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label htmlFor="company" className="block text-xs font-bold text-slate-700 uppercase tracking-wider">Company</label>
-                    <input type="text" id="company" required className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-red-800 focus:ring-2 focus:ring-red-200 outline-none transition-all focus:-translate-y-1 focus:shadow-lg focus:shadow-red-900/10 focus:bg-white bg-slate-50" />
+                    <input 
+                      id="company" 
+                      {...register("company", { required: "Company is required" })}
+                      className={`w-full px-4 py-3 rounded-xl border ${errors.company ? 'border-brand-500 focus:ring-brand-200' : 'border-slate-200 focus:border-brand-500 focus:ring-brand-200'} focus:ring-2 outline-none transition-all focus:-translate-y-1 focus:shadow-lg focus:shadow-brand-900/10 focus:bg-white bg-slate-50`} 
+                    />
+                    {errors.company && <p className="text-brand-600 text-xs font-medium mt-1">{errors.company.message}</p>}
                   </div>
                   <div className="space-y-2">
                     <label htmlFor="stage" className="block text-xs font-bold text-slate-700 uppercase tracking-wider">Leadership Stage</label>
-                    <select id="stage" className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-red-800 focus:ring-2 focus:ring-red-200 outline-none transition-all focus:-translate-y-1 focus:shadow-lg focus:shadow-red-900/10 focus:bg-white bg-slate-50 appearance-none font-medium">
+                    <select 
+                      id="stage" 
+                      {...register("stage", { required: "Please select a leadership stage" })}
+                      className={`w-full px-4 py-3 rounded-xl border ${errors.stage ? 'border-brand-500 focus:ring-brand-200' : 'border-slate-200 focus:border-brand-500 focus:ring-brand-200'} focus:ring-2 outline-none transition-all focus:-translate-y-1 focus:shadow-lg focus:shadow-brand-900/10 focus:bg-white bg-slate-50 appearance-none font-medium`}
+                    >
                       <option value="">Select a stage...</option>
                       <option value="emergent">Emergent</option>
                       <option value="growth">Growth</option>
                       <option value="strategic">Strategic</option>
                       <option value="legacy">Legacy</option>
                     </select>
+                    {errors.stage && <p className="text-brand-600 text-xs font-medium mt-1">{errors.stage.message}</p>}
                   </div>
                 </div>
 
@@ -138,9 +206,8 @@ export default function Contact() {
                   <label htmlFor="programOfInterest" className="block text-xs font-bold text-slate-700 uppercase tracking-wider">Program of Interest (Optional)</label>
                   <select 
                     id="programOfInterest" 
-                    value={programOfInterest}
-                    onChange={(e) => setProgramOfInterest(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-red-800 focus:ring-2 focus:ring-red-200 outline-none transition-all focus:-translate-y-1 focus:shadow-lg focus:shadow-red-900/10 focus:bg-white bg-slate-50 appearance-none font-medium"
+                    {...register("programOfInterest")}
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-200 outline-none transition-all focus:-translate-y-1 focus:shadow-lg focus:shadow-brand-900/10 focus:bg-white bg-slate-50 appearance-none font-medium"
                   >
                     <option value="">General Inquiry</option>
                     <option value="lamp">LAMP</option>
@@ -152,11 +219,30 @@ export default function Contact() {
 
                 <div className="space-y-2">
                   <label htmlFor="challenge" className="block text-xs font-bold text-slate-700 uppercase tracking-wider">Biggest Challenge</label>
-                  <textarea id="challenge" rows={4} required className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-red-800 focus:ring-2 focus:ring-red-200 outline-none transition-all focus:-translate-y-1 focus:shadow-lg focus:shadow-red-900/10 focus:bg-white bg-slate-50 resize-none"></textarea>
+                  <textarea 
+                    id="challenge" 
+                    rows={4} 
+                    {...register("challenge", { required: "Please tell us about your biggest challenge" })}
+                    className={`w-full px-4 py-3 rounded-xl border ${errors.challenge ? 'border-brand-500 focus:ring-brand-200' : 'border-slate-200 focus:border-brand-500 focus:ring-brand-200'} focus:ring-2 outline-none transition-all focus:-translate-y-1 focus:shadow-lg focus:shadow-brand-900/10 focus:bg-white bg-slate-50 resize-none`}
+                  ></textarea>
+                  {errors.challenge && <p className="text-brand-600 text-xs font-medium mt-1">{errors.challenge.message}</p>}
                 </div>
 
-                <button type="submit" className="w-full py-4 px-8 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl shadow-xl shadow-slate-200 transition-all hover:-translate-y-1 hover:shadow-2xl focus:ring-4 focus:ring-slate-200">
-                  Submit Request
+                <button 
+                  type="submit" 
+                  disabled={isSubmitting}
+                  className="w-full flex items-center justify-center py-4 px-8 bg-slate-900 hover:bg-brand-500 hover:scale-[1.02] active:scale-[0.98] text-white font-bold rounded-xl shadow-xl shadow-slate-200 transition-all duration-300 hover:shadow-brand-500/20 focus:ring-4 focus:ring-brand-200 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:bg-slate-900"
+                >
+                  {isSubmitting ? (
+                    <>
+                      Submitting
+                      <Loader2 className="ml-2 w-5 h-5 animate-spin" />
+                    </>
+                  ) : (
+                    <>
+                      Submit Request
+                    </>
+                  )}
                 </button>
               </form>
             )}
