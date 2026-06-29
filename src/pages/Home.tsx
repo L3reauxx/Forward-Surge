@@ -9,7 +9,7 @@ import {
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 
-import { AnimatedBlob } from "../components/AnimatedBlob";
+import { FluidCanvas } from "../components/FluidCanvas";
 import { ClientRiver } from "../components/ClientRiver";
 
 // ... [keep programs and testimonials definitions as they are, assume the replace will match properly, I will only target the imports and component start]
@@ -194,7 +194,7 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative overflow-hidden stripe-gradient py-24 lg:py-32">
         <motion.div style={{ y: y1 }} className="absolute inset-0 bg-surge-pattern opacity-60"></motion.div>
-        <AnimatedBlob />
+        <FluidCanvas />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="max-w-3xl space-y-8">
             <motion.div
