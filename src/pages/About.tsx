@@ -301,13 +301,15 @@ export default function About() {
                   <div className="absolute inset-0 bg-slate-900/0 group-hover:bg-slate-900/60 transition-colors duration-500"></div>
                   
                   <div className="absolute inset-0 p-6 sm:p-8 flex flex-col justify-end z-10">
-                    <h3 className="text-2xl font-bold text-white mb-1 transform translate-y-8 group-hover:translate-y-0 transition-transform duration-500 ease-out">{member.name}</h3>
-                    <p className="text-amber-400 font-bold text-xs uppercase tracking-widest mb-4 transform translate-y-8 group-hover:translate-y-0 transition-transform duration-500 ease-out delay-75">{member.role}</p>
+                    <h3 className="text-2xl font-bold text-white mb-1 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 ease-out">{member.name}</h3>
+                    <p className="text-brand-400 font-bold text-xs uppercase tracking-widest mb-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 ease-out delay-75">{member.role}</p>
                     
-                    <div className="overflow-hidden">
-                      <p className="text-slate-300 leading-relaxed text-sm opacity-0 group-hover:opacity-100 transform translate-y-8 group-hover:translate-y-0 transition-all duration-500 ease-out delay-150">
-                        {member.bio}
-                      </p>
+                    <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-500 ease-out">
+                      <div className="overflow-hidden min-h-0">
+                        <p className="text-slate-300 leading-relaxed text-sm opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500 ease-out delay-150 pt-2">
+                          {member.bio}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>

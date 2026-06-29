@@ -135,7 +135,7 @@ export default function Blog() {
                     </div>
                   </div>
                   
-                  <h2 className="text-2xl font-bold text-slate-900 mb-4 group-hover:text-brand-700 transition-colors">
+                  <h2 className="text-2xl font-bold text-slate-900 mb-4 group-hover:text-brand-500 transition-colors">
                     <Link to={`/post/${post.id}`}>{post.title}</Link>
                   </h2>
                   

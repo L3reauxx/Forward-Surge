@@ -54,20 +54,20 @@ const fragmentShaderSource = `
     mouse.x *= u_resolution.x/u_resolution.y;
 
     // Scale the noise
-    vec2 pos = vec2(st * 1.5);
+    vec2 pos = vec2(st * 0.8);
     
     // Mouse interaction
     float dist = distance(st, mouse);
-    float mouseEffect = smoothstep(0.6, 0.0, dist) * 0.5;
-    pos += mouseEffect * 0.1 * vec2(snoise(pos + u_time), snoise(pos - u_time));
+    float mouseEffect = smoothstep(1.0, 0.0, dist) * 0.4;
+    pos += mouseEffect * 0.2 * vec2(snoise(pos + u_time * 0.1), snoise(pos - u_time * 0.1));
 
     // Create undulating fluid noise
-    float n = snoise(pos - u_time * 0.05);
-    n += 0.5 * snoise(pos * 2.0 + u_time * 0.08);
+    float n = snoise(pos - u_time * 0.03);
+    n += 0.3 * snoise(pos * 1.5 + u_time * 0.05);
     
     // Base colors for light theme premium feel
     vec3 color1 = vec3(1.0, 1.0, 1.0); // White
-    vec3 color2 = vec3(0.96, 0.97, 0.98); // Light slate
+    vec3 color2 = vec3(0.96, 0.97, 0.99); // Light slate
     vec3 color3 = vec3(1.0, 0.87, 0.54); // brand-200
     vec3 color4 = vec3(1.0, 0.72, 0.07); // brand-400
     
@@ -77,12 +77,12 @@ const fragmentShaderSource = `
     float intensity = mix(0.15, 0.85, breathe);
 
     // Mix them fluidly
-    vec3 finalColor = mix(color1, color2, smoothstep(-1.0, 1.0, n));
-    float n2 = snoise(pos + vec2(u_time * 0.03, -u_time * 0.04));
-    finalColor = mix(finalColor, color3, smoothstep(-0.5, 0.5, n2) * (intensity * 0.8 + mouseEffect * 0.5));
+    vec3 finalColor = mix(color1, color2, smoothstep(-1.2, 1.2, n));
+    float n2 = snoise(pos + vec2(u_time * 0.02, -u_time * 0.03));
+    finalColor = mix(finalColor, color3, smoothstep(-0.8, 0.8, n2) * (intensity * 0.8 + mouseEffect * 0.5));
     
-    float n3 = snoise(pos * 0.5 - vec2(-u_time * 0.02, u_time * 0.02));
-    finalColor = mix(finalColor, color4, smoothstep(0.3, 1.0, n3) * (intensity * 0.6 + mouseEffect * 0.4));
+    float n3 = snoise(pos * 0.4 - vec2(-u_time * 0.015, u_time * 0.015));
+    finalColor = mix(finalColor, color4, smoothstep(0.0, 1.5, n3) * (intensity * 0.6 + mouseEffect * 0.4));
 
     gl_FragColor = vec4(finalColor, 1.0);
   }

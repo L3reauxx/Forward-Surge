@@ -59,11 +59,11 @@ const testimonials = [
     name: "Sarah Jenkins",
     role: "Chief Operating Officer",
     company: "KCB Group",
-    color: "bg-brand-900",
-    textColor: "text-brand-50",
+    textColor: "text-slate-900",
+    gradientColors: ["#fef3c7", "#dcfce7"], // brand-100, green-100
     Wireframe: () => (
       <div
-        className="absolute -bottom-16 -right-16 w-[400px] h-[400px] opacity-10 pointer-events-none"
+        className="absolute -bottom-16 -right-16 w-[400px] h-[400px] opacity-[0.03] pointer-events-none"
         style={{
           maskImage:
             "radial-gradient(circle at center, black, transparent 70%)",
@@ -76,7 +76,7 @@ const testimonials = [
           fill="none"
           stroke="currentColor"
           strokeWidth="1"
-          className="w-full h-full text-brand-300"
+          className="w-full h-full text-slate-900"
         >
           <circle cx="50" cy="50" r="40" />
           <circle cx="50" cy="50" r="30" />
@@ -96,11 +96,11 @@ const testimonials = [
     name: "David Mwangi",
     role: "HR Director",
     company: "Standard Chartered",
-    color: "bg-brand-800",
-    textColor: "text-brand-50",
+    textColor: "text-slate-900",
+    gradientColors: ["#fef3c7", "#e0e7ff"], // brand-100, indigo-100
     Wireframe: () => (
       <div
-        className="absolute -top-20 -right-12 w-[450px] h-[450px] opacity-15 pointer-events-none"
+        className="absolute -top-20 -right-12 w-[450px] h-[450px] opacity-[0.03] pointer-events-none"
         style={{
           maskImage: "linear-gradient(to bottom left, black, transparent 60%)",
           WebkitMaskImage:
@@ -112,7 +112,7 @@ const testimonials = [
           fill="none"
           stroke="currentColor"
           strokeWidth="1"
-          className="w-full h-full text-brand-200"
+          className="w-full h-full text-slate-900"
         >
           <rect x="10" y="10" width="80" height="80" />
           <rect x="20" y="20" width="60" height="60" />
@@ -130,11 +130,11 @@ const testimonials = [
     name: "Amina Hassan",
     role: "CEO",
     company: "WYLDE International",
-    color: "bg-brand-700",
-    textColor: "text-brand-50",
+    textColor: "text-slate-900",
+    gradientColors: ["#fef3c7", "#f3e8ff"], // brand-100, purple-100
     Wireframe: () => (
       <div
-        className="absolute -bottom-10 -left-10 w-[350px] h-[350px] opacity-15 pointer-events-none"
+        className="absolute -bottom-10 -left-10 w-[350px] h-[350px] opacity-[0.03] pointer-events-none"
         style={{
           maskImage: "linear-gradient(to top right, black, transparent 70%)",
           WebkitMaskImage:
@@ -146,7 +146,7 @@ const testimonials = [
           fill="none"
           stroke="currentColor"
           strokeWidth="0.5"
-          className="w-full h-full text-brand-100"
+          className="w-full h-full text-slate-900"
         >
           <pattern
             id="grid"
@@ -165,9 +165,79 @@ const testimonials = [
   },
 ];
 
+const testimonialSets = [
+  [
+    {
+      id: 't1',
+      type: 'internal',
+      quote: "True leadership transforms organizational culture from the inside out.",
+      name: "Peril John Alubbe",
+      role: "Founder & CEO",
+      image: "/team/peril-john-alubbe.jpg",
+      className: "top-8 right-[5%]"
+    },
+    {
+      id: 't2',
+      type: 'client',
+      quote: "Increased our team's productivity by 40% in just six months.",
+      name: "Sarah Chen",
+      role: "VP Operations, TechFlow",
+      image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=100&auto=format&fit=crop",
+      className: "bottom-12 right-[2%]"
+    },
+    {
+      id: 't3',
+      type: 'client',
+      quote: "The strategic alignment we achieved was game-changing for our Q3 goals.",
+      name: "Michael Rodriguez",
+      role: "Director, Nexus Inc",
+      image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=100&auto=format&fit=crop",
+      className: "top-1/2 right-[28%] -translate-y-1/2"
+    }
+  ],
+  [
+    {
+      id: 't4',
+      type: 'internal',
+      quote: "We align human potential with aggressive business targets.",
+      name: "Moses Sitati",
+      role: "Advisory Board",
+      image: "/team/moses-sitati-munoko.jpg",
+      className: "bottom-8 right-[24%]"
+    },
+    {
+      id: 't5',
+      type: 'client',
+      quote: "Their executive coaching completely reshaped our leadership team's dynamics.",
+      name: "Emily Watson",
+      role: "CEO, Global Retail",
+      image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=100&auto=format&fit=crop",
+      className: "top-16 right-[18%]"
+    },
+    {
+      id: 't6',
+      type: 'client',
+      quote: "A clear, actionable roadmap that delivered immediate ROI across the board.",
+      name: "David Kim",
+      role: "COO, HealthPlus",
+      image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=100&auto=format&fit=crop",
+      className: "top-1/3 right-[3%]"
+    }
+  ]
+];
+
 export default function Home() {
   const [activeProgram, setActiveProgram] = useState(0);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
+  const [currentSetIndex, setCurrentSetIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSetIndex((prev) => (prev + 1) % testimonialSets.length);
+    }, 8000); // 8 seconds per set
+    return () => clearInterval(interval);
+  }, []);
+
   
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 1000], [0, 200]);
@@ -294,6 +364,49 @@ export default function Home() {
                 Our Methodology
               </Link>
             </motion.div>
+          </div>
+          
+          {/* Floating Testimonials */}
+          <div className="absolute inset-0 pointer-events-none hidden lg:block">
+            <AnimatePresence mode="wait">
+              <motion.div key={currentSetIndex} className="absolute inset-0">
+                {testimonialSets[currentSetIndex].map((t, idx) => {
+                  const isInternal = t.type === 'internal';
+                  return (
+                    <motion.div
+                      key={t.id}
+                      initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.9, y: -20 }}
+                      transition={{ duration: 0.8, delay: idx * 0.2 }}
+                      className={`absolute ${t.className} z-20 pointer-events-auto group`}
+                    >
+                      <motion.div
+                        animate={{ y: [0, -10, 0] }}
+                        transition={{ repeat: Infinity, duration: 4.5 + idx * 0.5, ease: "easeInOut" }}
+                      >
+                        <div className={`max-w-[280px] p-5 rounded-2xl shadow-xl transition-transform duration-300 group-hover:-translate-y-2 ${
+                          isInternal 
+                            ? 'bg-brand-500 text-white shadow-brand-500/20 border border-brand-400' 
+                            : 'bg-white/80 backdrop-blur-md border border-slate-200 shadow-slate-200/50 text-slate-700'
+                        }`}>
+                          <p className={`text-sm font-medium italic mb-4 leading-relaxed ${isInternal ? 'text-white' : 'text-slate-700'}`}>
+                            "{t.quote}"
+                          </p>
+                          <div className="flex items-center gap-3">
+                            <img src={t.image} alt={t.name} className={`w-10 h-10 rounded-full object-cover opacity-90 ${isInternal ? 'mix-blend-luminosity' : 'grayscale'}`} />
+                            <div>
+                              <p className={`text-xs font-bold ${isInternal ? 'text-white' : 'text-slate-900'}`}>{t.name}</p>
+                              <p className={`text-[10px] uppercase font-bold tracking-wider ${isInternal ? 'text-brand-100' : 'text-brand-600'}`}>{t.role}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </motion.div>
+                    </motion.div>
+                  );
+                })}
+              </motion.div>
+            </AnimatePresence>
           </div>
         </div>
       </section>
@@ -544,7 +657,7 @@ export default function Home() {
             aria-label="Testimonials"
           >
             <div
-              className="overflow-hidden relative min-h-[400px] rounded-3xl shadow-2xl flex items-center"
+              className="overflow-hidden relative min-h-[400px] rounded-3xl shadow-2xl shadow-slate-200/50 flex items-center bg-white border border-slate-100 isolate [transform:translateZ(0)]"
               aria-live="polite"
             >
               <AnimatePresence mode="wait">
@@ -554,15 +667,35 @@ export default function Home() {
                   return (
                     <motion.div
                       key={activeTestimonial}
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 1.05 }}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
                       transition={{ duration: 0.5, ease: "easeInOut" }}
-                      className={`absolute inset-0 flex flex-col md:flex-row items-center justify-between p-8 md:p-16 overflow-hidden ${testimonials[activeTestimonial].color} ${testimonials[activeTestimonial].textColor}`}
+                      className={`absolute inset-0 flex flex-col md:flex-row items-center justify-between p-8 md:p-16 overflow-hidden rounded-3xl bg-white ${testimonials[activeTestimonial].textColor}`}
                       role="group"
                       aria-roledescription="slide"
                       aria-label={`Testimonial ${activeTestimonial + 1} of ${testimonials.length}`}
                     >
+                      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+                        <motion.div
+                          animate={{
+                            x: ['0%', '20%', '-20%', '0%'],
+                            y: ['0%', '30%', '-10%', '0%'],
+                          }}
+                          transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
+                          className="absolute -top-[50%] -left-[10%] w-[150%] h-[150%] blur-[100px] rounded-full opacity-[0.35]"
+                          style={{ background: `radial-gradient(circle, ${testimonials[activeTestimonial].gradientColors[0]}, transparent 50%)` }}
+                        />
+                        <motion.div
+                          animate={{
+                            x: ['-20%', '10%', '30%', '-20%'],
+                            y: ['30%', '-20%', '10%', '30%'],
+                          }}
+                          transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
+                          className="absolute -bottom-[50%] -right-[10%] w-[120%] h-[120%] blur-[100px] rounded-full opacity-[0.35]"
+                          style={{ background: `radial-gradient(circle, ${testimonials[activeTestimonial].gradientColors[1]}, transparent 50%)` }}
+                        />
+                      </div>
                       <ActiveWireframe />
                       <div className="md:w-3/5 z-10 relative">
                         <p className="text-xl md:text-2xl font-medium leading-relaxed mb-8">

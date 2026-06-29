@@ -36,16 +36,22 @@ export default function Footer() {
           <div className="space-y-6">
             <Link
               to="/"
-              className="text-xl font-extrabold tracking-tight uppercase text-slate-900 flex items-center gap-2"
+              className="flex items-center gap-3"
             >
               <img
                 src="/logo.png"
                 alt="Forward Surge Consultants"
-                className="h-8 object-contain"
+                className="h-10 object-contain"
               />
-              <span>
-                Forward<span className="text-brand-500">Surge</span>
-              </span>
+              <div className="flex flex-col justify-center pt-1">
+                <span className="font-extrabold text-xl tracking-tight uppercase text-slate-900 leading-none">
+                  Forward Surge
+                </span>
+                <div className="h-px bg-slate-300 w-full my-1"></div>
+                <span className="font-light text-[10px] tracking-[0.4em] uppercase text-slate-500 leading-none">
+                  Consultants
+                </span>
+              </div>
             </Link>
             <p className="text-xs leading-relaxed text-slate-500">
               We propel business growth by offering fresh perspectives and
@@ -61,7 +67,7 @@ export default function Footer() {
               <li>
                 <Link
                   to="/about"
-                  className="text-xs font-semibold text-slate-600 hover:text-brand-700 transition-colors uppercase tracking-wider"
+                  className="text-xs font-semibold text-slate-600 hover:text-brand-500 transition-colors uppercase tracking-wider"
                 >
                   About Us
                 </Link>
@@ -69,7 +75,7 @@ export default function Footer() {
               <li>
                 <Link
                   to="/programs"
-                  className="text-xs font-semibold text-slate-600 hover:text-brand-700 transition-colors uppercase tracking-wider"
+                  className="text-xs font-semibold text-slate-600 hover:text-brand-500 transition-colors uppercase tracking-wider"
                 >
                   Programs
                 </Link>
@@ -77,7 +83,7 @@ export default function Footer() {
               <li>
                 <Link
                   to="/clients"
-                  className="text-xs font-semibold text-slate-600 hover:text-brand-700 transition-colors uppercase tracking-wider"
+                  className="text-xs font-semibold text-slate-600 hover:text-brand-500 transition-colors uppercase tracking-wider"
                 >
                   Our Work
                 </Link>
@@ -85,7 +91,7 @@ export default function Footer() {
               <li>
                 <Link
                   to="/resources"
-                  className="text-xs font-semibold text-slate-600 hover:text-brand-700 transition-colors uppercase tracking-wider"
+                  className="text-xs font-semibold text-slate-600 hover:text-brand-500 transition-colors uppercase tracking-wider"
                 >
                   Resources
                 </Link>
@@ -93,7 +99,7 @@ export default function Footer() {
               <li>
                 <Link
                   to="/contact"
-                  className="text-xs font-semibold text-slate-600 hover:text-brand-700 transition-colors uppercase tracking-wider"
+                  className="text-xs font-semibold text-slate-600 hover:text-brand-500 transition-colors uppercase tracking-wider"
                 >
                   Contact Us
                 </Link>
@@ -183,13 +189,13 @@ export default function Footer() {
           <div className="flex space-x-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
             <Link
               to="/privacy"
-              className="hover:text-brand-700 transition-colors"
+              className="hover:text-brand-500 transition-colors"
             >
               Privacy Policy
             </Link>
             <Link
               to="/terms"
-              className="hover:text-brand-700 transition-colors"
+              className="hover:text-brand-500 transition-colors"
             >
               Terms of Service
             </Link>

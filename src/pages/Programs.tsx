@@ -79,7 +79,7 @@ const ProgramCard: React.FC<{ program: Program; index: number }> = ({ program, i
           <div className="pt-6 mt-auto">
             <Link 
               to={program.ctaLink || `/programs/${program.id}`} 
-              className="inline-flex items-center text-sm font-bold text-slate-900 uppercase tracking-wider group/btn hover:text-brand-700 transition-colors"
+              className="inline-flex items-center text-sm font-bold text-slate-900 uppercase tracking-wider group/btn hover:text-brand-500 transition-colors"
             >
               {program.ctaButtonText || "Learn More"}
               <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />

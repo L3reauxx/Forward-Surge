@@ -89,7 +89,7 @@ for (let i = 0; i < 200; i++) {
   }
 }
 
-export function FlowField() {
+export function FlowField({ centered = false }: { centered?: boolean }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -204,7 +204,7 @@ export function FlowField() {
       
       // Globe parameters
       const isMobile = width < 768;
-      const cx = isMobile ? width * 0.5 : width * 0.75;
+      const cx = isMobile || centered ? width * 0.5 : width * 0.75;
       const cy = height * 0.5;
       const R = isMobile ? width * 0.4 : Math.min(width * 0.35, height * 0.4);
       
@@ -316,7 +316,7 @@ export function FlowField() {
       window.removeEventListener('resize', resize);
       cancelAnimationFrame(animationFrameId);
     };
-  }, []);
+  }, [centered]);
 
   return (
     <canvas

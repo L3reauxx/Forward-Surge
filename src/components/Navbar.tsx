@@ -51,15 +51,21 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20 relative">
           <div className="flex-shrink-0 flex items-center gap-2">
-            <Link to="/" className="flex items-center gap-2">
+            <Link to="/" className="flex items-center gap-3">
               <img
                 src="/logo.png"
                 alt="Forward Surge Consultants"
-                className="h-8 object-contain"
+                className="h-10 object-contain"
               />
-              <span className="font-extrabold text-xl tracking-tight uppercase text-slate-900">
-                Forward<span className="text-brand-500">Surge</span>
-              </span>
+              <div className="flex flex-col justify-center pt-1">
+                <span className="font-extrabold text-xl tracking-tight uppercase text-slate-900 leading-none">
+                  Forward Surge
+                </span>
+                <div className="h-px bg-slate-300 w-full my-1"></div>
+                <span className="font-light text-[10px] tracking-[0.4em] uppercase text-slate-500 leading-none">
+                  Consultants
+                </span>
+              </div>
             </Link>
           </div>
 
@@ -112,7 +118,7 @@ export default function Navbar() {
                           <Link
                             key={sublink.name}
                             to={sublink.path}
-                            className="block px-4 py-2.5 text-sm font-medium text-slate-600 hover:text-brand-700 hover:bg-slate-50 transition-colors rounded-lg"
+                            className="block px-4 py-2.5 text-sm font-medium text-slate-600 hover:text-brand-500 hover:bg-slate-50 transition-colors rounded-lg"
                           >
                             {sublink.name}
                           </Link>
