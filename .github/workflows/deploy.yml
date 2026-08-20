@@ -38,7 +38,7 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          VITE_BASE_URL: ${{ steps.pages.outputs.base_path || '/' }}
+          VITE_BASE_URL: ${{ steps.pages.outputs.base_path || '/Forward-Surge/' }}
       - name: SPA 404 fallback for GitHub Pages
         run: cp dist/index.html dist/404.html
       - name: Upload artifact
